@@ -1,0 +1,93 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template plenumform_deft/main
+
+    This template will render the Plenary meeting main page
+
+    Variables required for this template:
+    * instance - Plenary meeting instance record
+    * contextid - Module contextid
+    * throttle - Deft socket throttle
+
+    Variables optional for this template:
+
+    Example context (json):
+    {
+       "contextid": 3,
+       "instance": {
+           "name": "Meeting"
+       },
+       "peerid": 134,
+       "slots": [
+           {"slot": "chair"},
+           {"slot": "floor"}
+       ],
+       "token": "33adf9e"
+    }
+
+}}
+{{< mod_plenum/main }}
+{{$ formcontent }}
+    <div data-region="plenum-deft-media"
+        data-contextid="{{ contextid }}"
+        class="col col-12 col-lg-6"
+    >
+        <div data-region="audio-control">
+            <div class="d-flex">
+                {{> plenumform_deft/enable_audio }}
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+            {{# slots }}
+                <div data-region="slot-{{slot}}" class="col-12 col-md-6 col-lg-12 p-1">
+                <div class="card">
+                <div class="card-header">{{ slotname }}</div>
+                    {{# posterurl }}
+                        <img src="{{ posterurl }}" class="card-img-top">
+                    {{/ posterurl }}
+                    <video class="w-100 hidden"
+                        autoplay
+                        playsinline
+                        muted
+                    >
+                    </video>
+                    <audio class="w-100 hidden"
+                        autoplay
+                        controls
+                        muted="muted"
+                        {{# playsinline }} playsinline {{/ playsinline }}
+                    >
+                    </audio>
+                </div>
+                </div>
+            {{/ slots }}
+            </div>
+        </div>
+    </div>
+{{/ formcontent }}
+{{$motions}}{{> plenumform_deft/motions }}{{/motions}}
+{{$ motionclasses }} col col-12 col-lg-6 {{/ motionclasses }}
+{{/ mod_plenum/main }}
+{{# js }}
+    require([
+        'plenumform_deft/media_manager'
+    ], function(MediaManager) {
+        new MediaManager({{ contextid }}, '{{ token }}', {{ peerid }});
+    });
+{{/ js }}

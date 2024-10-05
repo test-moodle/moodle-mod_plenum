@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<libraries>
+    <library>
+        <location>amd/src/external_api.js</location>
+        <name>Jitsi External API</name>
+        <license>Apache Licence</license>
+        <version></version>
+        <licenseversion>2.0</licenseversion>
+    </library>
+</libraries>

@@ -1,0 +1,53 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template plenumform_deft/mobile_main
+
+    This template will render the Plenary meeting main page for app
+
+    Variables required for this template:
+    * instance - Plenary meeting instance record
+    * contextid - Module contextid
+
+    Variables optional for this template:
+
+    Example context (json):
+    {
+       "contextid": 3,
+       "instance": {
+           "name": "Meeting"
+       },
+       "peerid": 134,
+       "slots": [
+           {"slot": "chair"},
+           {"slot": "floor"}
+       ],
+       "token": "33adf9e"
+    }
+
+}}
+{{# instance }}
+<core-navbar-buttons slot="end">
+    <ion-button
+        data-action="start"
+        (click)="Plenum.Deft.viewVideo();"
+        title="{{ 'plugin.mod_plenum.watchvideo' | translate }}"
+    >
+        <ion-icon color="danger" name="desktop-outline"></ion-icon>
+    </ion-button>
+</core-navbar-buttons>
+{{/ instance }}

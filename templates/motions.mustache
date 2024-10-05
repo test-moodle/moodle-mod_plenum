@@ -1,0 +1,82 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_plenum/motions
+
+    This template will render the Plenary meeting main page motions area
+
+    Variables required for this template:
+    * contextid - Plenary meeting context id
+
+    Variables optional for this template:
+
+    Example context (json):
+    {
+        "contextid": 7
+    }
+
+}}
+
+<div>
+        {{$ controls }}{{/ controls}}
+    <div data-region="plenum-pending">
+        <h3>{{# str }} pendingmotions, mod_plenum {{/ str }}</h3>
+        <div>
+        {{^ motions }}
+            <div class="card bg-warning">
+                <div class="card-body">
+                    {{# str }} noopensession, mod_plenum {{/ str }}
+                </div>
+            </div>
+        {{/ motions }}
+        {{# motions }}
+            {{# motion.pending }}
+            {{> mod_plenum/motion }}
+            {{/ motion.pending }}
+        {{/ motions }}
+        </div>
+    </div>
+    <div data-region="plenum-potential">
+        <h3>{{# str }} potentialmotions, mod_plenum {{/ str }}</h3>
+        {{^ availablemotions }}
+            <div class="card bg-secondary">
+                <div class="card-body">
+                    {{# str }} nopossiblemotions, mod_plenum {{/ str }}
+                </div>
+            </div>
+        {{/ availablemotions }}
+        <div class="m-3">
+        {{# availablemotions }}
+            <button class="btn btn-secondary m-1" data-action="move" data-type="{{ type }}">{{ name }}</button>
+        {{/ availablemotions }}
+        </div>
+    </div>
+    <div data-region="plenum-offered">
+        <h3>{{# str }} offeredmotions, mod_plenum {{/ str }}</h3>
+        {{^ offeredmotions }}
+            <p class="bg-info text-center">{{# str }} nomotionoffered, mod_plenum {{/ str }}</p>
+        {{/ offeredmotions }}
+        <div>
+        {{# motions }}
+            {{^ motion.pending }}
+            {{> mod_plenum/motion }}
+            {{/ motion.pending }}
+        {{/ motions }}
+        </div>
+    </div>
+        {{$ footer }}{{/ footer}}
+</div>

@@ -1,0 +1,97 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template mod_plenum/motion
+
+    This template will render the Plenary meeting single motion view page
+
+    Variables required for this template:
+    * motion - Motion data
+
+    Variables optional for this template:
+
+    Example context (json):
+    {
+        "motion": {
+            "name": "Open",
+            "type": "open",
+            "typename": "Open"
+        }
+    }
+
+}}
+
+<div data-motion="{{ motion.id }}" class="card plenum_motion_{{ motion.type }}{{# motion.immediate }} text-light bg-primary {{/ motion.immediate }}{{^ motion.pending }} text-light bg-secondary {{/ motion.pending }} m-1">
+    <div class="card-body">
+        <h5 class="card-title">
+                {{^ motion.preview }}
+                {{ motion.typename}}{{# motion.data.name }}: {{ motion.data.name }} {{/ motion.data.name }}
+                {{/ motion.preview }}
+                {{# motion.preview }}
+                <a src="#" data-action="preview">{{ motion.typename}}{{# motion.data.name }}: {{ motion.data.name }} {{/ motion.data.name }} <i class="fa fa-magnifying-glass"></i></a>
+                {{/ motion.preview }}
+        </h5>
+        <div class="">
+            <div class="float-right">{{ motion.start }}</div>
+                  {{# motion.immediate }}
+                      <img class="" src="{{ motion.user.pictureurl }}">
+                  {{/ motion.immediate }}
+                  {{^ motion.pending }}
+                      <img class="" src="{{ motion.user.pictureurl }}">
+                  {{/ motion.pending }}
+                  {{ motion.user.fullname }}
+        </div>
+        <div class="">
+            <div class="card-text">
+                {{ motion.content }}
+                {{# motion.needssecond }}
+                    <div class="alert alert-warning m-1">
+                    {{# str }} needssecond, mod_plenum {{/ str }}
+                    </div>
+                {{/ motion.needssecond }}
+            </div>
+        </div>
+        <div class="card-text m-3">
+            {{^ motion.pending }}
+                {{# motion.chair }}
+                    <button class="btn btn-success m-1" data-action="allow">{{# str }} allowmotion, mod_plenum {{/ str }}</button>
+                    <button class="btn btn-light m-1" data-action="deny">{{# str }} denymotion, mod_plenum {{/ str }}</button>
+                {{/ motion.chair }}
+                {{^ motion.chair }}
+                    <button class="btn btn-light m-1" data-action="deny">{{# str }} denymotion, mod_plenum {{/ str }}</button>
+                {{/ motion.chair }}
+            {{/ motion.pending }}
+            {{# motion.pending }}
+                {{# motion.decide }}
+                    <button class="btn btn-success m-1" data-action="adopt">{{# str }} adoptmotion, mod_plenum {{/ str }}</button>
+                    <button class="btn btn-light m-1" data-action="decline">{{# str }} declinemotion, mod_plenum {{/ str }}</button>
+                {{/ motion.decide }}
+                {{^ motion.decide }}
+                {{# motion.chair }}
+                {{# motion.immediate }}
+                    <button class="btn btn-light m-1" data-action="deny">{{# str }} denymotion, mod_plenum {{/ str }}</button>
+                {{/ motion.immediate }}
+                {{/ motion.chair }}
+                {{/ motion.decide }}
+                {{# motion.close }}
+                    <button class="btn btn-light m-1" data-action="close">{{# str }} closemotion, mod_plenum {{/ str }}</button>
+                {{/ motion.close }}
+            {{/ motion.pending }}
+{{debug}}
+        </div>
+    </div>
+</div>

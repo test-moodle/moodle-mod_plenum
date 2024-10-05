@@ -1,0 +1,215 @@
+{{=<% %>=}}
+<%!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+%>
+<%!
+{{!
+    @template mod_plenum/mobile_motions
+
+    This template will render the Plenary meeting main page
+
+    Variables required for this template:
+    * contextid - Plenary meeting context id
+
+    Variables optional for this template:
+
+    Example context (json):
+    {
+        "contextid": 3,
+        "token": "lklsdfj8af98e",
+        "uniqueid": "60dccff8871f6",
+        "motions": [
+        ],
+        "plugins": [
+        ]
+    }
+}}
+%>
+<ion-list data-contextid="<% contextid %>" data-region="plenum-motions">
+        <%# plugins %><%{ content }%><%/ plugins%>
+     <ion-list lines="full">
+        <ion-list-header>
+            <ion-label>
+                <h2>{{ 'plugin.mod_plenum.pendingmotions' | translate }}</h2>
+            </ion-label>
+        </ion-list-header>
+        <%# motions %>
+            <%# motion.pending %>
+              <ion-item color="secondary" data-motion="<% motion.id %>" class="plenum_motion_<% motion.type %>">
+                  <ion-card expand="block" style="width: 100%;" class="">
+                      <ion-card-header>
+                          <ion-card-title class="">
+                              <% motion.typename%><%# motion.data.name %>: <% motion.data.name %> <%/ motion.data.name %>
+                              <%# motion.preview %>
+                              <ion-button
+                                  color="secondary"
+                                  core-site-plugins-call-ws
+                                  expand="full"
+                                  name="mod_plenum_get_fragment"
+                                  [params]="{
+                                      fragment: 'motion',
+                                      contextid: <% contextid %>,
+                                      id: <% motion.id %>
+                                  }"
+                                  (onSuccess)="Plenum.viewMotion($event, '<%# str %> viewmotion, mod_plenum <%/ str %>')"
+                              >{{ 'plugin.mod_plenum.view' | translate }}<i class="fa fa-eye"></i></ion-button>
+                              <%/ motion.preview %>
+                          </ion-card-title>
+                          <ion-card-subtitle class="">
+                              <ion-list>
+                                  <ion-item>
+                                      <ion-label slot="end"><% motion.start %></ion-label>
+                                      <ion-label><% motion.user.fullname %></ion-label>
+                                  </ion-item>
+                                  <%# motion.needssecond %>
+                                      <ion-item>
+                                          <ion-label color="warning">
+                                              {{ 'plugin.mod_plenum.needssecond' | translate }}
+                                          </ion-label>
+                                      </ion-item>
+                                  <%/ motion.needssecond %>
+                              </ion-list>
+                          </ion-card-subtitle>
+                      </ion-card-header>
+                      <ion-card-content>
+                          <ion-label> <% motion.content %> </ion-label>
+                      <div class="">
+                              <%# motion.decide %>
+                                  <ion-button class=""
+                                      core-site-plugins-call-ws
+                                      name="mod_plenum_get_fragment"
+                                      [params]="{contextid: <% contextid %>, id: <% motion.id %>, fragment: 'confirmadopt'}"
+                                      confirmMessage
+                                  ><%# str %> adoptmotion, mod_plenum <%/ str %></ion-button>
+                                  <ion-button class=""
+                                      core-site-plugins-call-ws
+                                      name="mod_plenum_get_fragment"
+                                      [params]="{contextid: <% contextid %>, id: <% motion.id %>, fragment: 'confirmdecline'}"
+                                      confirmMessage
+                                  ><%# str %> declinemotion, mod_plenum <%/ str %></ion-button>
+                              <%/ motion.decide %>
+                              <%^ motion.decide %>
+                                  <%# chair %>
+                                  <%# motion.immediate %>
+                                  <ion-button class=""
+                                      core-site-plugins-call-ws
+                                      name="mod_plenum_get_fragment"
+                                      [params]="{contextid: <% contextid %>, id: <% motion.id %>, fragment: 'confirmdeny'}"
+                                      confirmMessage
+                                  ><%# str %> denymotion, mod_plenum <%/ str %></ion-button>
+                                  <%/ motion.immediate %>
+                                  <%/ chair %>
+                              <%/ motion.decide %>
+                      </div>
+                      </ion-card-content>
+                  </ion-card>
+              </ion-item>
+            <%/ motion.pending %>
+        <%/ motions %>
+     </ion-list>
+     <ion-list>
+        <ion-list-header>
+            <ion-label>
+                <h2>{{ 'plugin.mod_plenum.potentialmotions' | translate }}</h2>
+            </ion-label>
+        </ion-list-header>
+        <%# availablemotions %>
+            <ion-item
+                class=""
+                core-site-plugins-new-content
+                component="mod_plenum"
+                method="mobile_move"
+                [args]="{contextid: <% contextid %>, groupid: '<% selectedgroup.id %>', type: '<% type %>'}"
+                title="{{ 'plugin.plenumtype_<% type %>.editingmotiontype' | translate }}"
+                [preSets]="{getFromCache: false, saveToCache: false, reusePending: false}"
+            >
+                <% name %>
+            </ion-item>
+        <%/ availablemotions %>
+     </ion-list>
+     <ion-list lines="full">
+        <ion-list-header>
+            <ion-label>
+                <h2>{{ 'plugin.mod_plenum.offeredmotions' | translate }}</h2>
+            </ion-label>
+        </ion-list-header>
+        <%^ offeredmotions %>
+            <p class="bg-info text-center">{{ 'plugin.mod_plenum.nomotionoffered' | translate }}</p>
+        <%/ offeredmotions %>
+        <%# motions %>
+            <%^ motion.pending %>
+              <ion-item color="secondary" data-motion="<% motion.id %>" class="plenum_motion_<% motion.type %>">
+                  <ion-card expand="block" style="width: 100%;" class="">
+                      <ion-card-header>
+                          <ion-card-title class="">
+                              <% motion.typename%><%# motion.data.name %>: <% motion.data.name %> <%/ motion.data.name %>
+                              <%# motion.preview %>
+                              <ion-button
+                                  color="secondary"
+                                  core-site-plugins-call-ws
+                                  expand="full"
+                                  name="mod_plenum_get_fragment"
+                                  [params]="{
+                                      fragment: 'motion',
+                                      contextid: <% contextid %>,
+                                      id: <% motion.id %>
+                                  }"
+                                  (onSuccess)="Plenum.viewMotion($event, '<%# str %> viewmotion, mod_plenum <%/ str %>')"
+                              >{{ 'plugin.mod_plenum.view' | translate }}<i class="fa fa-eye"></i></ion-button>
+                              <%/ motion.preview %>
+                          </ion-card-title>
+                          <ion-card-subtitle class="">
+                              <ion-list>
+                                  <ion-item>
+                                      <ion-label slot="end"><% motion.start %></ion-label>
+                                      <ion-label><% motion.user.fullname %></ion-label>
+                                  </ion-item>
+                              </ion-list>
+                          </ion-card-subtitle>
+                      </ion-card-header>
+                      <ion-card-content>
+                          <ion-label> <% motion.content %> </ion-label>
+                      <div class="">
+                              <%# chair %>
+                                  <ion-button class=""
+                                      core-site-plugins-call-ws
+                                      name="mod_plenum_get_fragment"
+                                      [params]="{contextid: <% contextid %>, id: <% motion.id %>, fragment: 'confirmallow'}"
+                                      confirmMessage
+                                  ><%# str %> allowmotion, mod_plenum <%/ str %></ion-button>
+                                  <ion-button class=""
+                                      core-site-plugins-call-ws
+                                      name="mod_plenum_get_fragment"
+                                      [params]="{contextid: <% contextid %>, id: <% motion.id %>, fragment: 'confirmdeny'}"
+                                      confirmMessage="<p><% motion.typename %></p><p>{{ 'plugin.mod_plenum.denymotion' | translate }}</p>"
+                                  ><%# str %> denymotion, mod_plenum <%/ str %></ion-button>
+                              <%/ chair %>
+                              <%^ chair %>
+                                  <ion-button class=""
+                                      core-site-plugins-call-ws
+                                      name="mod_plenum_get_fragment"
+                                      [params]="{contextid: <% contextid %>, id: <% motion.id %>, fragment: 'confirmdeny'}"
+                                      confirmMessage
+                                  ><%# str %> denymotion, mod_plenum <%/ str %></ion-button>
+                              <%/ chair %>
+                      </div>
+                      </ion-card-content>
+                  </ion-card>
+              </ion-item>
+            <%/ motion.pending %>
+        <%/ motions %>
+     </ion-list>
+</ion-list>

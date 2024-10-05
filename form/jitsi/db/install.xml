@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/plenum/form/jitsi/db" VERSION="20240226" COMMENT="XMLDB file for Moodle mod/plenum/form/jitsi"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="plenumform_jitsi" COMMENT="Default comment for plenumform_jitsi, please edit me">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="plenum" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="room" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="plenum" TYPE="foreign-unique" FIELDS="plenum" REFTABLE="plenum" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

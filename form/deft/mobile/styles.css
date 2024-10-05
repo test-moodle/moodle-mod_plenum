@@ -1,0 +1,10 @@
+.plenum-deft-video {
+    overflow-y: scroll;
+    max-height: 100vh;
+}
+
+.plenum-deft-video video {
+    aspect-ratio: 1 / 1;
+    max-height: 100vh;
+    width: 100%;
+}

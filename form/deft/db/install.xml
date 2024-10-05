@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="mod/plenum/form/deft/db" VERSION="20240527" COMMENT="XMLDB file for Moodle plenumform_deft"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <TABLE NAME="plenumform_deft_peer" COMMENT="Meeting peers">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="plenum" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="sessionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Session id associated with peer"/>
+        <FIELD NAME="type" TYPE="char" LENGTH="40" NOTNULL="false" DEFAULT="venue" SEQUENCE="false"/>
+        <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="User id who modified record"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="Time created when user first joins"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="mute" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="status" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="motion" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="plenum" TYPE="foreign" FIELDS="plenum" REFTABLE="plenum" REFFIELDS="id"/>
+        <KEY NAME="usermodified" TYPE="foreign" FIELDS="usermodified" REFTABLE="user" REFFIELDS="id"/>
+        <KEY NAME="sessionid" TYPE="foreign" FIELDS="sessionid" REFTABLE="session" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="plenumform_deft_room" COMMENT="Item to use in setting up room with groups associated">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="plenum" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="groupid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="plenum" TYPE="foreign" FIELDS="plenum" REFTABLE="plenum" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+    <TABLE NAME="plenumform_deft" COMMENT="Deft media settings">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="plenum" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Activity id"/>
+        <FIELD NAME="moderate" TYPE="int" LENGTH="4" NOTNULL="false" SEQUENCE="false" COMMENT="Whether meeting is moderated"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="plenum" TYPE="unique" FIELDS="plenum"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

@@ -1,0 +1,133 @@
+{{=<% %>=}}
+<%!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+%>
+<%!
+{{!
+    @template mod_plenum/mobile
+
+    This template will render the Plenary meeting main motion for mobile
+
+    Variables required for this template:
+    * contextid - Plenary meeting context id
+
+    Variables optional for this template:
+
+    Example context (json):
+    {
+        "attachments": [
+            {
+                "id": 33,
+                "name": "Program.txt"
+            }
+        ],
+        "contextid": 10,
+        "previous": {
+            "id": 72,
+            "url": "https://example.com/mod/plenum/index.php?id=7",
+            "name": "Open",
+            "pluginname": "open"
+        },
+        "resolution": "<p>That the program may be approved.</p>",
+        "timecreated": 1715465315,
+        "typename": "Resolve",
+        "user": {
+            "fullname": "Henry M. Robert"
+        }
+    }
+}}
+%>
+
+<ion-list>
+    <%# previous %>
+    <ion-item>
+        <ion-button
+            data-contextid="<% contextid %>"
+            data-motion="<% previous.id %>"
+            data-action="preview"
+            color="secondary"
+            expand="block"
+        >
+            <ion-label>
+                <ion-icon name="chevron-back-outline"></ion-icon>
+                <%# previous.name %>
+                <% previous.name %>
+                <%/ previous.name %>
+                <%^ previous.name %>
+                <% previous.pluginname %>
+                <%/ previous.name %>
+            </ion-label>
+        </ion-button>
+    </ion-item>
+    <%/ previous %>
+    <%^ plugindata.name %>
+        <ion-item>
+            <ion-label>
+                <h5><% typename %></h5>
+            </ion-label>
+        </ion-item>
+    <%/ plugindata.name %>
+    <%# plugindata.name %>
+        <ion-item>
+            <ion-label>
+                <h5><% typename %>: <% plugindata.name %></h5>
+            </ion-label>
+        </ion-item>
+    <%/ plugindata.name %>
+    <ion-item>
+        <ion-label>
+            <div>
+                <%# str %> offeredby, mod_plenum <%/ str %> <% user.fullname %>
+            </div>
+            <div>
+                <%# str %> timecreated, mod_plenum <%/ str %>
+                <%# userdate %> <% timecreated %>, <%# str %> strftimedatetime, langconfig <%/ str %> <%/ userdate %>
+            </div>
+        </ion-label>
+    </ion-item>
+    <%$ content %><%/ content %>
+    <%$ subsidiary %>
+    <ion-item>
+        <ion-label>
+            <h5><%# str %> subsidiarymotions, mod_plenum <%/ str %></h5>
+        </ion-label>
+    </ion-item>
+    <%^ motions %>
+        <ion-item>
+            <%# str %> none <%/ str %>
+        </ion-item>
+    <%/ motions %>
+    <%# motions %>
+        <ion-item
+        >
+            <ion-button
+                data-contextid="<% contextid %>"
+                data-motion="<% id %>"
+                data-action="preview"
+                color="secondary"
+                expand="block"
+            >
+                <%# name %>
+                    <% name %>
+                <%/ name %>
+                <%^ name %>
+                    <% pluginname %>
+                <%/ name %>
+            </ion-button>
+        </ion-item>
+    <%/ motions %>
+    <%/ subsidiary %>
+</ion-list>
