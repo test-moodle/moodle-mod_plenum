@@ -33,7 +33,7 @@ use renderer_base;
 use stdClass;
 use templatable;
 use mod_plenum\motion;
-use plenumform_jitsi\socket;
+use mod_plenum\output\motions;
 
 /**
  * Class for Plenary meeting media elements
@@ -43,23 +43,6 @@ use plenumform_jitsi\socket;
  */
 class main extends \mod_plenum\output\main {
     /**
-     * Constructor.
-     *
-     * @param context_module $context The context of the module.
-     * @param stdClass $cm Course module info for activity
-     * @param stdClass $instance Activity record
-     */
-    public function __construct(
-        /** @var $context Module context */
-        protected readonly context_module $context,
-        /** @var $cm Course module record */
-        protected readonly cm_info $cm,
-        /** @var stdClass $instance Instance record */
-        protected readonly stdClass $instance
-    ) {
-    }
-
-    /**
      * Export this data so it can be used as the context for a mustache template.
      *
      * @param \renderer_base $output
@@ -68,7 +51,7 @@ class main extends \mod_plenum\output\main {
     public function export_for_template(renderer_base $output) {
         global $DB, $USER;
 
-        $motions = new motions($this->context, $this->cm, $this->instance);
+        $motions = new motions($this->context);
 
         return [
             'chair' => has_capability('mod/plenum:preside', $this->context),

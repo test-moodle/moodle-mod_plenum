@@ -56,7 +56,12 @@ class motions implements renderable, templatable {
         /** @var $groupid Group id */
         protected $groupid = null
     ) {
+        global $USER;
+
         $this->motions = motion::instances($context, $groupid);
+        if ($pending = motion::immediate_pending($context, $groupid)) {
+            $this->pending = !empty($pending) && ($pending->get('usercreated') == $USER->id);
+        }
     }
 
     /**
