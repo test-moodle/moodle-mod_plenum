@@ -16,11 +16,15 @@
 
 namespace mod_plenum\hook;
 
+defined('MOODLE_INTERNAL') || die();
+
 use stdClass;
 use context_module;
 use cm_info;
 use mod_plenum\motion;
 
+#[\core\attribute\label('Allows plugins or features to perform actions before a motion is deleted in a meeting.')]
+#[\core\attribute\tags('mod_plenum')]
 /**
  * Hook before a motion is deleted
  *
@@ -28,21 +32,20 @@ use mod_plenum\motion;
  * @copyright  2024 Daniel Thies <dethies@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-#[\core\attribute\label('Allows plugins or features to perform actions before a motion is deleted in a meeting.')]
-#[\core\attribute\tags('mod_plenum')]
 final class before_motion_deleted {
     /**
      * Constructor for the hook.
      *
-     * @param context_module $context The context of the module
-     * @param stdClass|cm_info $cm Course module
+     * @param context_module $context Module context of meeting
+     * @param stdClass|cm_info $cm Course module record
+     * @param motion $motion Motion to be deleted
      */
     public function __construct(
-        /** @var context_module $context Module context of meeting */
+        /** @var readonly context_module Module context of meeting */
         public readonly context_module $context,
-        /** @var context_module $cm Course module record */
+        /** @var readonly stdClass|cm_info Course module record */
         public readonly stdClass|cm_info $cm,
-        /** @var motion $motion Motion to be deleted */
+        /** @var readonly motion Motion to be deleted */
         public readonly motion $motion
     ) {
     }

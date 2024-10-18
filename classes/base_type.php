@@ -56,6 +56,7 @@ class base_type implements renderable, templatable {
      * @param motion $motion Motion
      * @param null|context_module $context The content record for the binder
      * @param null|stdClass $cm Course module
+     * @param null|int $groupid Group id
      */
     public function __construct(
         /** @var $motion Motion */
@@ -87,7 +88,6 @@ class base_type implements renderable, templatable {
     public function export_for_template(renderer_base $output) {
         global $PAGE;
 
-        $options = [];
         $user = core_user::get_user($this->motion->get('usercreated'));
         $userpicture = new user_picture($user);
         $user->pictureurl = $userpicture->get_url($PAGE, $output);
@@ -171,17 +171,17 @@ class base_type implements renderable, templatable {
      * @param int $state
      */
     public function change_status(int $state) {
-        global $DB;
+        global $DB, $USER;
 
         $pending = motion::immediate_pending($this->motion->get_context(), $this->motion->get('groupid'));
 
         if (
-            $pending
+            !empty($pending)
             && ($this->motion->get('status') == motion::STATUS_PENDING)
             && ($state != motion::STATUS_PENDING)
             && ($pending->get('id') == $this->motion->get('id'))
             && ($plenum = $DB->get_record('plenum', ['id' => $this->motion->get('plenum')]))
-            && $plenum->moderate
+            && !empty($plenum->moderate)
             && $queue = motion::get_records([
                 'plenum' => $this->motion->get('plenum'),
                 'groupid' => $this->motion->get('groupid'),
@@ -191,10 +191,14 @@ class base_type implements renderable, templatable {
         ) {
             $next = array_shift($queue);
             $this->motion->set('status', $state);
+            $this->motion->set('timemodified', time());
+            $this->motion->set('usermodified', $USER->id);
             $this->motion->update();
             $next->change_status(motion::STATUS_PENDING);
         } else {
             $this->motion->set('status', $state);
+            $this->motion->set('timemodified', time());
+            $this->motion->set('usermodified', $USER->id);
             $this->motion->update();
         }
     }

@@ -47,7 +47,7 @@ final class delete_test extends advanced_testcase {
         $this->setAdminUser();
 
         $course = $this->getDataGenerator()->create_course();
-        $user = $this->getDataGenerator()->create_and_enrol($course, 'student');
+        $this->getDataGenerator()->create_and_enrol($course, 'student');
         $activity = $this->getDataGenerator()->create_module('plenum', ['course' => $course]);
 
         /** @var \mod_plenum_generator $generator */

@@ -40,15 +40,17 @@ class activity_report implements renderable, templatable {
     /**
      * Constructor.
      *
-     * @param context_module $context The context of the meeting
+     * @param context_module $context Module context
+     * @param int $userid User id
+     * @param null|int $groupid Group id
      */
     public function __construct(
-        /** @var $context Module context */
+        /** @var context_module $context Module context */
         protected context_module $context,
-        /** @var $userid User id */
-        protected $userid,
-        /** @var $groupid Group id */
-        protected $groupid = null
+        /** @var int $userid User id */
+        protected int $userid,
+        /** @var null|int $groupid Group id */
+        protected ?int $groupid = null
     ) {
         $plenum = \core\di::get(\mod_plenum\manager::class)->get_plenum($context);
 

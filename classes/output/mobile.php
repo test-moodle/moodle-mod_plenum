@@ -275,6 +275,8 @@ class mobile {
     /**
      * Get the motion current user is offering
      *
+     * @param context_module $context Module context
+     * @param ?int $groupid Group id
      * @return motion|null
      */
     protected static function current_offer($context, $groupid = null): ?motion {
@@ -301,7 +303,7 @@ class mobile {
      * Process the form submission
      *
      * @param module_context $context Module content
-     * @param stdClass Form data
+     * @param stdClass $data Form data
      */
     protected static function process_submission($context, $data) {
         if (!empty($data->warning)) {

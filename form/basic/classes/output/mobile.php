@@ -46,7 +46,7 @@ class mobile {
      * @throws \moodle_exception
      */
     public static function mobile_mod_view($args) {
-        global $CFG, $DB, $OUTPUT, $PAGE;
+        global $DB, $OUTPUT;
 
         $args = (object) $args;
 

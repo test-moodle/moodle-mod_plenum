@@ -66,12 +66,11 @@ class update_content extends external_api {
             'contextid' => $contextid,
         ]);
 
-        $context = context::instance_by_id($contextid);
+        $context = context::instance_by_id($params['contextid']);
         self::validate_context($context);
         $cm = get_coursemodule_from_id('plenum', $context->instanceid);
 
         $room = new janus_room($cm->instance);
-        $data = $room->get_data();
 
         $motions = new motions($context);
 

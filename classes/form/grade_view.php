@@ -85,9 +85,6 @@ class grade_view extends dynamic_form {
      * @return mixed
      */
     public function process_dynamic_submission() {
-        $data = (object)$this->_ajaxformdata;
-        $context = $this->get_context_for_dynamic_submission();
-        $cm = get_coursemodule_from_id('plenum', $context->instanceid);
         return '';
     }
 
@@ -136,14 +133,6 @@ class grade_view extends dynamic_form {
         ) {
             $mform->setDefault('grade', (float)$grade);
         }
-
-        $gradinginfo = grade_get_grades(
-            $context->get_course_context()->instanceid,
-            'mod',
-            'plenum',
-            $cm->instance,
-            [$data->userid]
-        );
 
         $plenum = \core\di::get(\mod_plenum\manager::class)->get_plenum($context, $cm);
         $mform->addElement('html', $plenum->view_status());

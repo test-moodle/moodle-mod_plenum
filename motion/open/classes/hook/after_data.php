@@ -16,12 +16,17 @@
 
 namespace plenumtype_open\hook;
 
+defined('MOODLE_INTERNAL') || die();
+
+use core\attribute;
 use stdClass;
 use context_module;
 use cm_info;
 use moodleform;
 use MoodleQuickForm;
 
+#[attribute\label('Allows plugins or features to perform actions after a motion is changed in a meeting.')]
+#[attribute\tags('mod_plenum')]
 /**
  * Hook after data in form to add more elements
  *
@@ -29,22 +34,21 @@ use MoodleQuickForm;
  * @copyright  2024 Daniel Thies <dethies@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-#[\core\attribute\label('Allows plugins or features to perform actions after a motion is changed in a meeting.')]
-#[\core\attribute\tags('mod_plenum')]
 final class after_data {
     /**
      * Constructor for the hook.
      *
-     * @param stdClass $enrolinstance The enrol instance.
-     * @param stdClass $userenrolmentinstance The user enrolment instance.
+     * @param context_module $context Module context of meeting
+     * @param stdClass|cm_info $cm Course module record
+     * @param MoodleQuickForm $mform Form for motion definition
      */
     public function __construct(
         /** @var context_module $context Module context of meeting */
         private readonly context_module $context,
-        /** @var context_module $cm Course module record */
+        /** @var stdClass|cm_info $cm Course module record */
         private readonly stdClass|cm_info $cm,
         /** @var MoodleQuickForm $mform Form for motion definition */
-        private readonly MoodleQuickForm $mform,
+        private readonly MoodleQuickForm $mform
     ) {
     }
 

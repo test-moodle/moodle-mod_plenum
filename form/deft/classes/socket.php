@@ -86,7 +86,7 @@ class socket extends \block_deft\socket {
     /**
      * Update content after motion modified
      *
-     * @param after_motion_update Hook
+     * @param after_motion_updated $hook Hook
      */
     public static function after_motion_updated(after_motion_updated $hook) {
         global $DB;
@@ -110,7 +110,7 @@ class socket extends \block_deft\socket {
             $data = json_decode($room->get_data());
             $pending = motion::immediate_pending($hook->get_context());
             if (
-                !empty((int)$data->floor) && (
+                !empty($data->floor) && (
                     empty($pending) ||
                     ($DB->get_field('plenumform_deft_peer', 'usermodified', ['id' => $data->floor]) != $pending->get('usercreated'))
                 )

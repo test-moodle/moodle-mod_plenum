@@ -132,6 +132,7 @@ class motion extends persistent implements renderable, templatable {
      * Get pending questions
      *
      * @param int $context Course module context of Plenary meeting
+     * @param ?int $groupid Group id
      */
     public static function offered_motions($context, $groupid = null) {
         global $USER;
@@ -177,6 +178,7 @@ class motion extends persistent implements renderable, templatable {
      * Get pending questions
      *
      * @param context_module $context Course module context of Plenary meeting
+     * @param ?int $groupid Group id
      * @return array
      */
     public static function get_pending(context_module $context, $groupid = null): array {
@@ -229,6 +231,7 @@ class motion extends persistent implements renderable, templatable {
      * Get immediately pending motion
      *
      * @param context_module $context Plenary meeting module context
+     * @param ?int $groupid
      * @return motion|null
      */
     public static function immediate_pending(context_module $context, $groupid = null): ?motion {
@@ -241,6 +244,7 @@ class motion extends persistent implements renderable, templatable {
      * Available motions that are in order
      *
      * @param context_module $context Plenary meeting module context
+     * @param ?int $groupid Group id
      * @return array
      */
     public static function available_motions(context_module $context, $groupid = null): array {
@@ -271,6 +275,7 @@ class motion extends persistent implements renderable, templatable {
      *
      * @param context_module $context Plenary meeting module context
      * @param stdClass $formdata Data from form
+     * @param ?int $groupid
      * @return motion
      */
     public static function make(context_module $context, stdClass $formdata, $groupid = null) {
@@ -358,6 +363,7 @@ class motion extends persistent implements renderable, templatable {
      * Return motion type instances for pending motions
      *
      * @param context_module $context
+     * @param ?int $groupid
      * @return array
      */
     public static function instances($context, $groupid = null) {

@@ -58,8 +58,6 @@ class raise_hand extends external_api {
      * @return array
      */
     public static function execute(int $contextid, bool $raisehand): array {
-        global $DB, $USER;
-
         $params = self::validate_parameters(self::execute_parameters(), [
             'contextid' => $contextid,
             'raisehand' => $raisehand,

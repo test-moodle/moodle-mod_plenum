@@ -54,7 +54,7 @@ final class get_fragment_test extends externallib_advanced_testcase {
         $this->setAdminUser();
 
         $this->expectException('moodle_exception');
-        $result = get_fragment::execute(0, 'content', 0);
+        get_fragment::execute(0, 'content', 0);
     }
 
     /**
@@ -73,7 +73,7 @@ final class get_fragment_test extends externallib_advanced_testcase {
         $usernotenrolled = self::getDataGenerator()->create_user();
         $this->setUser($usernotenrolled);
         $this->expectException('moodle_exception');
-        $result = get_fragment::execute($context->id, 'content', 0);
+        get_fragment::execute($context->id, 'content', 0);
     }
 
     /**
@@ -125,7 +125,7 @@ final class get_fragment_test extends externallib_advanced_testcase {
 
         $this->setUser($scenario->student);
         $this->expectException('moodle_exception');
-        $result = get_fragment::execute($context->id, 'content', 0);
+        get_fragment::execute($context->id, 'content', 0);
     }
 
     /**

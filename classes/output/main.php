@@ -51,14 +51,14 @@ class main implements renderable, templatable {
     /**
      * Constructor.
      *
-     * @param context_module $context The context of the activity
-     * @param stdClass $cm Course module
-     * @param stdClass $instance Module record
+     * @param context_module $context Module context
+     * @param cm_info $cm Course module record
+     * @param stdClass $instance Instance record
      */
     public function __construct(
-        /** @var $context Module context */
+        /** @var context_module $context Module context */
         protected readonly context_module $context,
-        /** @var $cm Course module record */
+        /** @var cm_info $cm Course module record */
         protected readonly cm_info $cm,
         /** @var stdClass $instance Instance record */
         protected readonly stdClass $instance
@@ -86,7 +86,7 @@ class main implements renderable, templatable {
     /**
      * Called mform mod_form after_data to add form specific options
      *
-     * @param moodleform $mform Form to which to add fields
+     * @param MoodleQuickForm $mform Form to which to add fields
      */
     public static function create_settings_elements(MoodleQuickForm $mform) {
     }

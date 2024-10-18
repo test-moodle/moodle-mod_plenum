@@ -49,7 +49,7 @@ class main extends \mod_plenum\output\main {
      * @return array
      */
     public function export_for_template(renderer_base $output) {
-        global $DB, $USER;
+        global $USER;
 
         $motions = new motions($this->context);
 
@@ -71,7 +71,7 @@ class main extends \mod_plenum\output\main {
      * @return string
      */
     protected function get_room() {
-        global $DB, $USER;
+        global $DB;
 
         if (
             groups_get_activity_groupmode($this->cm)
@@ -90,7 +90,7 @@ class main extends \mod_plenum\output\main {
      * @return string
      */
     protected function get_jwt() {
-        global $DB, $USER;
+        global $USER;
 
         $header = json_encode([
             "alg" => "HS256",
@@ -129,7 +129,7 @@ class main extends \mod_plenum\output\main {
     /**
      * Called mform mod_form after_data to add form specific options
      *
-     * @param moodleform $mform Form to which to add fields
+     * @param MoodleQuickForm $mform Form to which to add fields
      */
     public static function create_settings_elements(MoodleQuickForm $mform) {
         $mform->insertElementBefore(

@@ -49,12 +49,13 @@ class motions implements renderable, templatable {
      * Constructor.
      *
      * @param context_module $context The context of the meeting
+     * @param ?int $groupid Group id
      */
     public function __construct(
-        /** @var $context Module context */
+        /** @var context_module $context Module context */
         protected context_module $context,
-        /** @var $groupid Group id */
-        protected $groupid = null
+        /** @var ?int $groupid Group id */
+        protected ?int $groupid = null
     ) {
         global $USER;
 

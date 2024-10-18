@@ -103,7 +103,7 @@ class manage_plenumtype_plugins_page extends \admin_setting {
      * @return string
      */
     public function output_html($data, $query = ''): string {
-        global $CFG, $OUTPUT;
+        global $OUTPUT;
         $return = '';
 
         $pluginmanager = \core_plugin_manager::instance();

@@ -61,14 +61,12 @@ class get_room extends external_api {
             'contextid' => $contextid,
         ]);
 
-        $context = context::instance_by_id($contextid);
+        $context = context::instance_by_id($params['contextid']);
         self::validate_context($context);
         $cm = get_coursemodule_from_id('plenum', $context->instanceid);
 
         $janusroom = new janus_room($cm->instance);
         $socket = new socket($context);
-
-        $janus = new janus();
 
         return [
             'roomid' => $janusroom->get_roomid(),

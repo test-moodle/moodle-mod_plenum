@@ -1,11 +1,11 @@
 # Plenary meeting #
 
-The Plenary meeting activity module organizes meetings following
-tradional rules of parlimentary procedure. It may be used as a tool
-to teach learners appropriate conduct in meeting or to structure and
-administer facultly, staff, student or other organizational meetings.
+The Plenary meeting activity module organizes online and in person
+meetings following traditional rules of parliamentary procedure. It may
+be used as a tool to teach skills to conduct a meeting or to structure
+and administer faculty, staff, student or other organizational meetings.
 
-Users are granted the privledges to speak, make motions, vote or chair
+Users are granted the privileges to speak, make motions, vote or chair
 meetings through Moodle capabilities and roles. The activity maintains
 a record of motions to provide meeting minutes. User actions are logged
 in Moodle log system.
@@ -21,8 +21,8 @@ provided for Jitsi meet.
 
 1. Log in to your Moodle site as an admin and go to _Site administration >
    Plugins > Install plugins_.
-2. Upload the ZIP file with the plugin code. You should only be prompted
-to add
+2. Upload the ZIP file with the plugin code and ZIP file for block Deft
+response. You should only be prompted to add
    extra details if your plugin type is not automatically detected.
 3. Check the plugin validation report and finish the installation.
 
@@ -33,15 +33,19 @@ directory to
 
     {your/moodle/dirroot}/mod/plenum
 
+and place code for block Deft response in
+
+    {your/moodle/dirroot}/blocks/deft
+
 Afterwards, log in to your Moodle site as an admin and 1. go to _Site
 administration > Notifications_ to complete the installation.  2. Adjust
-subplugin settings to accommodate variations in parlimentary procedure.
-3. Install Block deft response or other conferencing integrations for
-online meeting support.
+subplugin settings to accommodate variations in parliamentary procedure.
+3. Install Block deft response or other conferencing integration
+dependency for online meeting support.
 
 ## License ##
 
-2023 Daniel Thies <dethies@gmail.com>
+2023 onward Daniel Thies <dethies@gmail.com>
 
 This program is free software: you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the

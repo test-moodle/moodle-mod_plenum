@@ -147,8 +147,6 @@ class motion extends \core_search\base_mod {
      * @return \moodle_url
      */
     public function get_doc_url(\core_search\document $doc) {
-        global $DB;
-
         return new \moodle_url('/mod/plenum/motion.php', ['id' => $doc->get('itemid')]);
     }
 
@@ -161,8 +159,6 @@ class motion extends \core_search\base_mod {
      * @return bool
      */
     public function check_access($id) {
-        global $USER;
-
         try {
             $motion = new \mod_plenum\motion($id);
             $cm = get_coursemodule_from_instance('plenum', $motion->get('plenum'), 0, false, MUST_EXIST);

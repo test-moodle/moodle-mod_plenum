@@ -50,8 +50,6 @@ class grader extends dynamic_form {
      * Form definition
      */
     public function definition() {
-        global $CFG, $USER;
-
         $mform = $this->_form;
 
         $mform->addElement('hidden', 'contextid');
@@ -76,8 +74,6 @@ class grader extends dynamic_form {
      *
      */
     protected function check_access_for_dynamic_submission(): void {
-        global $USER;
-
         $context = $this->get_context_for_dynamic_submission();
         require_capability('mod/plenum:grade', $context);
     }
@@ -90,8 +86,6 @@ class grader extends dynamic_form {
      * @return mixed
      */
     public function process_dynamic_submission() {
-        global $DB, $USER;
-
         $data = (object)$this->_ajaxformdata;
         $context = $this->get_context_for_dynamic_submission();
 
@@ -108,7 +102,7 @@ class grader extends dynamic_form {
      * to preprocess editor and filemanager elements
      */
     public function set_data_for_dynamic_submission(): void {
-        global $DB, $OUTPUT;
+        global $OUTPUT;
 
         $mform = $this->_form;
 

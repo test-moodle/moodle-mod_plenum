@@ -81,7 +81,6 @@ final class lib_test extends advanced_testcase {
      * @covers ::plenum_grade_item_update
      */
     public function test_plenum_grade(): void {
-        global $DB;
         $this->resetAfterTest();
         $this->setAdminUser();
 
@@ -90,12 +89,6 @@ final class lib_test extends advanced_testcase {
         $teacher = $this->getDataGenerator()->create_and_enrol($course, 'teacher');
         $activity = $this->getDataGenerator()->create_module('plenum', ['course' => $course, 'grade' => 100]);
         $this->setUser($teacher);
-
-        /** @var \mod_plenum_generator $generator */
-        $generator = $this->getDataGenerator()->get_plugin_generator('mod_plenum', ['grade' => 100]);
-
-        // Check the Plenary meeting activity exist.
-        $this->assertNotEmpty($DB->get_record('plenum', ['id' => $activity->id]));
 
         $cm = get_coursemodule_from_instance('plenum', $activity->id);
         $plenum = \core\di::get(\mod_plenum\manager::class)->get_plenum(context_module::instance($cm->id), $cm);

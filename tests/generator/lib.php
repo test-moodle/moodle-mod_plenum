@@ -36,8 +36,6 @@ class mod_plenum_generator extends testing_module_generator {
      *     cmid (corresponding id in course_modules table)
      */
     public function create_instance($record = null, ?array $options = null): stdClass {
-        global $CFG;
-
         $record = (object)(array)$record;
 
         if (!isset($record->form)) {

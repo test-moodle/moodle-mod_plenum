@@ -217,7 +217,7 @@ class provider implements
         $DB->delete_records_select(
             'plenumform_deft_peer',
             "plenum $sql AND usermodified = :usermodified",
-            ['usermodified' => $user->id] + $params
+            ['usermodified' => $userid] + $params
         );
     }
 }

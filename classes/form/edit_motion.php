@@ -124,7 +124,7 @@ class edit_motion extends dynamic_form {
         $mform->setDefault('warning', $this->_ajaxformdata['warning'] ?? 0);
 
         $params = $this->_ajaxformdata;
-        foreach ($params as $field => $value) {
+        foreach (array_keys($params) as $field) {
             if ($field !== 'jsondata') {
                 $mform->setDefault($field, $this->_ajaxformdata[$field]);
             }

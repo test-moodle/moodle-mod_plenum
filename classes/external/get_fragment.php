@@ -67,20 +67,20 @@ class get_fragment extends external_api {
             'id' => $id,
         ]);
 
-        $context = context::instance_by_id($contextid);
+        $context = context::instance_by_id($params['contextid']);
         self::validate_context($context);
 
         $output = $PAGE->get_renderer('mod_plenum');
         $html = '';
         $js = '';
-        if ($id) {
+        if ($params['id']) {
             $motion = new motion($id);
             $type = $motion->get('type');
             $classname = "plenumtype_$type\\type";
             $instance = new $classname($motion, $context);
         }
 
-        switch ($fragment) {
+        switch ($params['fragment']) {
             case 'confirmadopt':
                 require_capability('mod/plenum:preside', $context);
                 $instance->change_status(motion::STATUS_ADOPT);
@@ -100,13 +100,13 @@ class get_fragment extends external_api {
             case 'allow':
             case 'decline':
             case 'deny':
-                $motion = new motion($id);
+                $motion = new motion($params['id']);
 
                 $type = $motion->get('type');
                 $user = core_user::get_user($motion->get('usercreated'));
 
                 $data = (array)$motion->to_record() + [
-                    'action' => $fragment,
+                    'action' => $params['fragment'],
                     'fullname' => fullname($user),
                     'user' => $user,
                 ];
@@ -114,7 +114,7 @@ class get_fragment extends external_api {
                 $js = '';
                 break;
             case 'motion':
-                $motion = new motion($id);
+                $motion = new motion($params['id']);
 
                 $type = $motion->get('type');
 

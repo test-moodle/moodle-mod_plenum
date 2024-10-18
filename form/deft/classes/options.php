@@ -37,7 +37,7 @@ class options extends options_base {
     /**
      * Called mform mod_form after_data to add form specific options
      *
-     * @param moodleform $mform Form to which to add fields
+     * @param MoodleQuickForm $mform Form to which to add fields
      */
     public static function create_settings_elements(MoodleQuickForm $mform) {
     }

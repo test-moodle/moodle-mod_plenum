@@ -53,7 +53,7 @@ class controls extends \mod_plenum\output\motions {
      * @param context_module $context The context of the activity.
      */
     public function __construct(context_module $context) {
-        global $DB, $USER;
+        global $USER;
 
         $this->cm = get_coursemodule_from_id('plenum', $context->instanceid);
 
@@ -90,11 +90,7 @@ class controls extends \mod_plenum\output\motions {
             'pending' => $this->pending,
             'sharevideo' => $this->share_video(),
             'viewvideo' => $this->view_video(),
-            'issharingvideo' => $this->share_video() && $DB->get_record('plenumform_deft_peer', [
-                'plenum' => $this->cm->instance,
-                'status' => 0,
-                'usermodified' => $USER->id,
-            ]),
+            'issharingvideo' => $issharingvideo,
         ];
     }
 

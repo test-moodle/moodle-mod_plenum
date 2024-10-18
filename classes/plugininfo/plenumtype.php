@@ -125,7 +125,6 @@ class plenumtype extends base {
      * @return moodle_url|null
      */
     public function get_settings_url(): ?moodle_url {
-        global $CFG;
         if (!file_exists($this->full_path('settings.php'))) {
             return null;
         }
@@ -146,7 +145,7 @@ class plenumtype extends base {
 
         // Check they are enabled using get_config (which is cached and hopefully fast).
         $enabled = [];
-        foreach ($plugins as $plugin => $version) {
+        foreach (array_keys($plugins) as $plugin) {
             if (get_config("plenumtype_$plugin", 'enabled')) {
                 $enabled[$plugin] = $plugin;
             }

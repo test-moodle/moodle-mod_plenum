@@ -30,7 +30,11 @@
             "id": 3,
             "name": "Open",
             "type": "open",
-            "typename": "Open"
+            "typename": "Open",
+            "user": {
+                "fullname": "Joe Robert",
+                "pictureurl": "https://example.com/pluginfile.php/345/user/icon/boost/f2?rev=31226"
+            }
         }
     }
 }}
@@ -48,10 +52,10 @@
         <div class="">
             <div class="float-right">{{ motion.start }}</div>
                   {{# motion.immediate }}
-                      <img class="" src="{{ motion.user.pictureurl }}">
+                      <img class="" src="{{ motion.user.pictureurl }}" alt="{{ motion.user.fullname }}">
                   {{/ motion.immediate }}
                   {{^ motion.pending }}
-                      <img class="" src="{{ motion.user.pictureurl }}">
+                      <img class="" src="{{ motion.user.pictureurl }}" alt="{{ motion.user.fullname }}">
                   {{/ motion.pending }}
                   {{ motion.user.fullname }}
         </div>

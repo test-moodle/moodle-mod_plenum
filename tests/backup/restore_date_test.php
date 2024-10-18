@@ -37,7 +37,7 @@ final class restore_date_test extends \restore_date_testcase {
      * Test restore dates.
      */
     public function test_restore_dates(): void {
-        global $DB, $USER;
+        global $DB;
 
         // Create plenum data.
         $record = [
@@ -50,7 +50,7 @@ final class restore_date_test extends \restore_date_testcase {
         $timestamp = 100;
 
         // Add motion.
-        $motion = $activitygenerator->create_motion([
+        $activitygenerator->create_motion([
             'plenumid' => $plenum->cmid,
             'type' => 'open',
             'timecreated' => $timestamp,

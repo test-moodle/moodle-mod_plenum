@@ -1,5 +1,5 @@
 @mod @mod_plenum @mod_plenum_grade
-Feature: Queue
+Feature: Queue speakers
   In order to preside at a meeting
   As a teacher
   I need to allow students to make motions

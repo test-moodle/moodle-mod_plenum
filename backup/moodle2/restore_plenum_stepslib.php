@@ -60,7 +60,6 @@ class restore_plenum_activity_structure_step extends restore_activity_structure_
 
         $data = (object)$data;
 
-        $oldid = $data->id;
         $data->course = $this->get_courseid();
 
         $newitemid = $DB->insert_record('plenum', $data);
@@ -128,7 +127,6 @@ class restore_plenum_activity_structure_step extends restore_activity_structure_
 
         $this->add_related_files('mod_plenum', 'intro', null);
         $this->add_related_files('mod_plenum', 'attachments', 'plenum_motion');
-        $pluginmanager = new \mod_videotime\plugin_manager('plenumform');
         $plugins = \mod_plenum\plugininfo\plenumform::get_enabled_plugins();
 
         foreach ($plugins as $plugin) {

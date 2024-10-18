@@ -46,13 +46,19 @@ require_once($CFG->dirroot . '/grade/grading/lib.php');
 class plenum {
     /**
      * Constructor
+     * @param context_module $context Module context
+     * @param null|stdClass|cm_info $cm Course module
+     * @param stdClass|null $course
+     * @param stdClass|null $instance Module instance
+     * @param \core\clock $clock System clock
+     * @param \moodle_database $db Database manager
      */
     public function __construct(
-        /** @var context_module Module context */
+        /** @var context_module $context Module context */
         protected readonly context_module $context,
-        /** @var null|cm_info $cm Course module */
+        /** @var null|stdClass|cm_info $cm Course module */
         protected null|stdClass|cm_info $cm,
-        /** @var stdClass|null $course */
+        /** @var stdClass|null $course Course record */
         protected ?stdClass $course,
         /** @var stdClass|null $instance Module instance */
         protected ?stdClass $instance,
@@ -172,7 +178,7 @@ class plenum {
     public function get_mainpage() {
         $form = $this->get_instance()->form ?: get_config('mod_plenum', 'defaultform');
         $classname = "plenumform_$form\\output\\main";
-        $main = new $classname($this->context, $this->cm, $this->instance);
+        $main = new $classname($this->get_context(), $this->cm, $this->instance);
         return $main;
     }
 
@@ -276,7 +282,6 @@ class plenum {
      * Prepares the form before data are set
      *
      * @param  array $defaultvalues
-     * @param  int $instance
      */
     public function data_preprocessing(array &$defaultvalues) {
         $form = $this->get_course_module()->customdata['form'];
@@ -304,12 +309,9 @@ class plenum {
      * @return mixed gradingform_instance|null $gradinginstance
      */
     protected function get_grading_instance($userid, $grade, $gradingdisabled) {
-        global $CFG, $USER;
-
         $grademenu = make_grades_menu($this->get_instance()->grade);
         $allowgradedecimals = $this->get_instance()->grade > 0;
 
-        $advancedgradingwarning = false;
         $gradingmanager = get_grading_manager($this->context, 'mod_plenum', 'plenum');
         $gradinginstance = null;
         if ($gradingmethod = $gradingmanager->get_active_method()) {
@@ -320,17 +322,15 @@ class plenum {
                     $itemid = $grade->id;
                 }
                 if ($gradingdisabled && $itemid) {
-                    $gradinginstance = $controller->get_current_instance($USER->id, $itemid);
+                    $gradinginstance = $controller->get_current_instance($userid, $itemid);
                 } else if (!$gradingdisabled) {
                     $instanceid = optional_param('advancedgradinginstanceid', 0, PARAM_INT);
                     $gradinginstance = $controller->get_or_create_instance(
                         $instanceid,
-                        $USER->id,
+                        $userid,
                         $itemid
                     );
                 }
-            } else {
-                $advancedgradingwarning = $controller->form_unavailable_notification();
             }
         }
         if ($gradinginstance) {
@@ -348,8 +348,6 @@ class plenum {
      * @return void
      */
     public function add_grade_form_elements(MoodleQuickForm $mform, stdClass $data, $params) {
-        global $USER, $CFG, $SESSION;
-
         $grade = $this->db->get_record('plenum_grades', $params);
         $userid = $data->userid ?? 0;
 
@@ -435,11 +433,10 @@ class plenum {
      *
      * @param stdClass $formdata - the data from the form
      * @param int $userid - the user to apply the grade to
-     * @param int $attemptnumber - The attempt number to apply the grade to.
      * @return void
      */
     protected function apply_grade_to_user($formdata, $userid) {
-        global  $CFG, $USER;
+        global  $USER;
 
         $grade = $this->get_user_grade($userid, true);
         $gradingdisabled = !$this->is_grading_enabled();
@@ -476,7 +473,6 @@ class plenum {
         // Need grade permission.
         require_capability('mod/plenum:grade', $this->context);
 
-        $instance = $this->get_instance();
         $this->apply_grade_to_user($data, $userid);
 
         return true;

@@ -33,11 +33,13 @@ class manager {
     /**
      * Constructor
      *
+     * @param \core\clock $clock System clock
+     * @param \moodle_database $db Database manager
      */
     public function __construct(
-        /** @var \core\clock $clock System clock */
+        /** @var readonly \core\clock $clock System clock */
         protected readonly \core\clock $clock,
-        /** @var \moodle_database $db Database manager */
+        /** @var readonly \moodle_database $db Database manager */
         protected readonly \moodle_database $db
     ) {
     }
@@ -49,9 +51,11 @@ class manager {
      * in mod_form.php) this function will create a new instance and return the id
      * number of the instance.
      *
-     * @param object $moduleinstance An object from the form.
-     * @param mod_plenum_mod_form $mform The form.
-     * @return int The id of the newly inserted record.
+     * @param context_module $context
+     * @param null|stdClass|cm_info $cm Course module
+     * @param null|stdClass $course Course record
+     * @param null|stdClass $instance Activity instance record
+     * @return plenum
      */
     public function get_plenum(
         context_module $context,

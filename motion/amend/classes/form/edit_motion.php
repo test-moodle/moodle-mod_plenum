@@ -43,10 +43,7 @@ class edit_motion extends \mod_plenum\form\edit_motion {
      * Form definition
      */
     public function definition() {
-        global $CFG, $USER;
-
         $mform = $this->_form;
-        $context = $this->get_context_for_dynamic_submission();
 
         $mform->addElement('text', 'name', get_string('name'));
         $mform->setType('name', PARAM_TEXT);
@@ -90,8 +87,6 @@ class edit_motion extends \mod_plenum\form\edit_motion {
      * @return mixed
      */
     public function process_dynamic_submission() {
-        global $USER;
-
         $data = (object)$this->_ajaxformdata;
         $context = $this->get_context_for_dynamic_submission();
         $draftid = $data->attachments;

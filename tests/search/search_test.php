@@ -47,13 +47,11 @@ final class search_test extends \advanced_testcase {
      * @return void
      */
     public function test_search_enabled(): void {
-        global $USER;
-
         $this->resetAfterTest(true);
         set_config('enableglobalsearch', true);
 
         // Set \core_search::instance to the mock_search_engine as we don't require the search engine to be working to test this.
-        $search = \testable_core_search::instance();
+        \testable_core_search::instance();
         $searchareaid = \core_search\manager::generate_areaid('mod_plenum', 'motion');
         $searcharea = \core_search\manager::get_search_area($searchareaid);
         [$componentname, $varname] = $searcharea->get_config_var_name();
@@ -80,7 +78,7 @@ final class search_test extends \advanced_testcase {
         set_config('enableglobalsearch', true);
 
         // Set \core_search::instance to the mock_search_engine as we don't require the search engine to be working to test this.
-        $search = \testable_core_search::instance();
+        \testable_core_search::instance();
         $searchareaid = \core_search\manager::generate_areaid('mod_plenum', 'motion');
 
         // Returns the instance as long as the area is supported.
@@ -96,7 +94,7 @@ final class search_test extends \advanced_testcase {
             'plenumid' => $plenum->cmid,
             'type' => 'open',
         ]);
-        $motion2 = $activitygenerator->create_motion([
+        $activitygenerator->create_motion([
             'plenumid' => $plenum->cmid,
             'parent' => $motion1->get('id'),
             'type' => 'resolve',
@@ -143,7 +141,7 @@ final class search_test extends \advanced_testcase {
         set_config('enableglobalsearch', true);
 
         // Set \core_search::instance to the mock_search_engine as we don't require the search engine to be working to test this.
-        $search = \testable_core_search::instance();
+        \testable_core_search::instance();
         $searchareaid = \core_search\manager::generate_areaid('mod_plenum', 'motion');
 
         // Returns the instance as long as the area is supported.
@@ -156,20 +154,20 @@ final class search_test extends \advanced_testcase {
         $user = $this->getDataGenerator()->create_user();
         $this->getDataGenerator()->enrol_user($user->id, $course1->id, 'teacher');
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course1->id]);
-        $group2 = $this->getDataGenerator()->create_group(['courseid' => $course1->id]);
+        $this->getDataGenerator()->create_group(['courseid' => $course1->id]);
 
         $plenum = $this->getDataGenerator()->create_module('plenum', [
             'course' => $course1->id,
             'groupmode' => SEPARATEGROUPS,
         ]);
         $group1 = $this->getDataGenerator()->create_group(['courseid' => $course1->id]);
-        $group2 = $this->getDataGenerator()->create_group(['courseid' => $course1->id]);
+        $this->getDataGenerator()->create_group(['courseid' => $course1->id]);
         $motion1 = $activitygenerator->create_motion([
             'plenumid' => $plenum->cmid,
             'type' => 'open',
             'groupid' => $group1->id,
         ]);
-        $motion2 = $activitygenerator->create_motion([
+        $activitygenerator->create_motion([
             'plenumid' => $plenum->cmid,
             'parent' => $motion1->get('id'),
             'type' => 'resolve',
@@ -210,7 +208,7 @@ final class search_test extends \advanced_testcase {
         set_config('enableglobalsearch', true);
 
         // Set \core_search::instance to the mock_search_engine as we don't require the search engine to be working to test this.
-        $search = \testable_core_search::instance();
+        \testable_core_search::instance();
         $searchareaid = \core_search\manager::generate_areaid('mod_plenum', 'motion');
 
         // Returns the instance as long as the area is supported.

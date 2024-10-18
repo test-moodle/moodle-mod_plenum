@@ -314,8 +314,6 @@ function plenum_get_file_info($browser, $areas, $course, $cm, $context, $fileare
  * @param array $options Additional options affecting the file serving.
  */
 function mod_plenum_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, $options = []) {
-    global $DB, $CFG;
-
     if ($context->contextlevel != CONTEXT_MODULE) {
         send_file_not_found();
     }
@@ -475,13 +473,6 @@ function plenum_reset_userdata(stdClass $data): array {
         $sql = "SELECT a.id FROM {plenum} a WHERE a.course=:courseid";
         if ($activities = $DB->get_records_sql($sql, $params)) {
             foreach ($activities as $activity) {
-                $cm = get_coursemodule_from_instance(
-                    'plenum',
-                    $activity->id,
-                    $data->courseid,
-                    false,
-                    MUST_EXIST
-                );
                 mod_plenum\motion::delete_all($activity->id);
             }
         }
@@ -570,6 +561,7 @@ function plenum_reset_gradebook($courseid, $type = '') {
  *
  * @param calendar_event $event
  * @param \core_calendar\action_factory $factory
+ * @param int $userid
  * @return \core_calendar\local\event\entities\action_interface|null
  */
 function mod_plenum_core_calendar_provide_event_action(

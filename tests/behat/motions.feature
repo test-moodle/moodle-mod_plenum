@@ -1,8 +1,8 @@
 @mod @mod_plenum @mod_plenum_motion
-Feature: Queue
+Feature: Making motions
   In order to preside at a meeting
   As a teacher
-  I need to allow students to make motions
+  I need to be able to open meeting and make motions
 
   Background:
     Given the following "users" exist:

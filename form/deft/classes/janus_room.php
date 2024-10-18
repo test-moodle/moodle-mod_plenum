@@ -68,6 +68,7 @@ class janus_room extends janus_room_base {
      * Constructor
      *
      * @param int $id Instance id
+     * @param ?int $groupid Group id
      */
     public function __construct(int $id, $groupid = null) {
         global $DB, $USER;
@@ -152,10 +153,10 @@ class janus_room extends janus_room_base {
     /**
      * Store room data
      *
-     * @param stdClass|array $data data to store
+     * @param array|stdClass $data Data to store
      * @return bool
      */
-    public function set_data(stdClass|array $data): bool {
+    public function set_data(array|stdClass $data): bool {
         global $DB;
 
         return $DB->set_field(
@@ -187,7 +188,7 @@ class janus_room extends janus_room_base {
     /**
      * Delete peer data after motion deleted
      *
-     * @param after_motion_deleted Hook
+     * @param before_motion_deleted $hook Hook
      */
     public static function before_motion_deleted(before_motion_deleted $hook) {
         global $DB;
@@ -208,6 +209,7 @@ class janus_room extends janus_room_base {
     /**
      * User info for display
      *
+     * @param renderer_base $output Renderer
      * @return array
      */
     public function userinfo(renderer_base $output): array {

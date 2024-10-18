@@ -473,7 +473,7 @@ class provider implements
      *
      * @param int $userid User id
      * @param \stdClass $plenum Activity record
-     * @param int $userid User id
+     * @param int $grade Grade
      *
      */
     protected static function export_grading_data(int $userid, \stdClass $plenum, int $grade) {

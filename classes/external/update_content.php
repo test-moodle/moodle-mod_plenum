@@ -54,13 +54,13 @@ class update_content extends external_api {
      * @return array
      */
     public static function execute(int $contextid): array {
-        global $DB, $OUTPUT, $USER;
+        global $OUTPUT;
 
         $params = self::validate_parameters(self::execute_parameters(), [
             'contextid' => $contextid,
         ]);
 
-        $context = context::instance_by_id($contextid);
+        $context = context::instance_by_id($params['contextid']);
         self::validate_context($context);
 
         $motions = new motions($context);

@@ -54,7 +54,7 @@ final class update_content_test extends externallib_advanced_testcase {
         $this->setAdminUser();
 
         $this->expectException('moodle_exception');
-        $result = update_content::execute(0);
+        update_content::execute(0);
     }
 
     /**
@@ -73,7 +73,7 @@ final class update_content_test extends externallib_advanced_testcase {
         $usernotenrolled = self::getDataGenerator()->create_user();
         $this->setUser($usernotenrolled);
         $this->expectException('moodle_exception');
-        $result = update_content::execute($context->id);
+        update_content::execute($context->id);
     }
 
     /**
@@ -126,7 +126,7 @@ final class update_content_test extends externallib_advanced_testcase {
 
         $this->setUser($scenario->student);
         $this->expectException('moodle_exception');
-        $result = update_content::execute($context->id);
+        update_content::execute($context->id);
     }
 
     /**
